@@ -1,0 +1,69 @@
+Aim: Create an Android application to demonstrate Shared 
+Preferences.
+
+Main_Activity.xml Code:
+<RelativeLayout android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ xmlns:android="http://schemas.android.com/apk/res/android"
+ android:layout_marginTop="150dp">
+ <EditText
+ android:id="@+id/Name"
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:hint="Enter your Name"
+ android:textSize="35dp" />
+ <EditText
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:layout_below="@+id/Name"
+ android:hint="Enter your Roll no"
+ android:textSize="35dp"
+ android:id="@+id/RollNO"/>
+ <Button
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:id="@+id/Btn1"
+ android:text="Save"
+ android:textSize="30dp"
+ android:layout_below="@+id/RollNO"/>
+ <Button
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:id="@+id/Btn2"
+ android:text="GET"
+ android:textSize="30dp"
+ android:layout_below="@+id/RollNO"
+ android:layout_toRightOf="@+id/Btn1"/>
+</RelativeLayout>
+Main_Activity.kt Code:
+package com.example.pract2
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+class MainActivity : AppCompatActivity() {
+ override fun onCreate(savedInstanceState: Bundle?) {
+ super.onCreate(savedInstanceState)
+ enableEdgeToEdge()
+ setContentView(R.layout.activity_main)
+ val name=findViewById<EditText>(R.id.Name)
+ val roll=findViewById<EditText>(R.id.RollNO)
+ val save = findViewById<Button>(R.id.Btn1)
+ val get = findViewById<Button>(R.id.Btn2)
+ val sharedPref = getSharedPreferences("addName", MODE_PRIVATE)
+ var editperf = sharedPref.edit()
+ save.setOnClickListener{
+ editperf.putString("name",name.text.toString())
+ editperf.putString("rollno",name.text.toString())
+ editperf.commit()
+ Toast.makeText(this, "Data saved", Toast.LENGTH_LONG).show()
+ }
+ get.setOnClickListener{
+ val n = sharedPref.getString("name", "defaultvalue")
+ val r = sharedPref.getString("rollno", "defaultvalue")
+ Toast.makeText(this, "Name: "+n+" Roll no: "+r, Toast.LENGTH_LONG).show()
+ } } }
