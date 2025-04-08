@@ -1,0 +1,91 @@
+Aim: Create media player Application in android that plays audio. 
+Implement play ,Pause,
+Loop features
+Activity_main.xml:-
+<RelativeLayout android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ android:layout_margin="30dp"
+ xmlns:android="http://schemas.android.com/apk/res/android" >
+ <TextView
+ android:id="@+id/TMedia"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_margin="20dp"
+ android:text="Media player"
+ android:textSize="40dp">
+ </TextView>
+ <Button
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="stop"
+ android:textSize="30dp"
+ android:id="@+id/btn1"
+ android:layout_below="@+id/TMedia">
+ </Button>
+ <Button
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="start"
+ android:textSize="30dp"
+ android:id="@+id/btn2"
+ android:layout_below="@+id/TMedia"
+ android:layout_toRightOf="@+id/btn1">
+ </Button>
+ <Button
+ android:id="@+id/btn3"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_below="@+id/TMedia"
+ android:layout_toRightOf="@+id/btn2"
+ android:text="Pause"
+ android:textSize="26dp">
+ </Button>
+</RelativeLayout>
+
+MainActivity.kt file
+import android.media.MediaPlayer
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+Page 44
+class MainActivity : AppCompatActivity() {
+override fun onCreate(savedInstanceState: Bundle?) {
+super.onCreate(savedInstanceState)
+setContentView(R.layout.activity_main)
+// create an instance of mediplayer for audio playback
+val mediaPlayer: MediaPlayer = MediaPlayer.create(applicationContext, R.raw.music)
+// register all the buttons using their appropriate IDs
+val bPlay: Button = findViewById(R.id.playButton)
+val bPause: Button = findViewById(R.id.pauseButton)
+val bStop: Button = findViewById(R.id.stopButton)
+// handle the start button to
+// start the audio playback
+bPlay.setOnClickListener {
+// start method is used to start
+// playing the audio file
+mediaPlayer.start()
+}
+// handle the pause button to put the
+// MediaPlayer instance at the Pause state
+bPause.setOnClickListener {
+Page 45
+// pause() method can be used to
+// pause the mediaplyer instance
+mediaPlayer.pause()
+}
+// handle the stop button to stop playing
+// and prepare the mediaplayer instance
+// for the next instance of play
+bStop.setOnClickListener {
+// stop() method is used to completely
+// stop playing the mediaplayer instance
+mediaPlayer.stop()
+// after stopping the mediaplayer instance
+// it is again need to be prepared
+// for the next instance of playback
+mediaPlayer.prepare()
+}
+}
+}
+
+OUTPUT: On every Button the songs Starts, Stops, Pause
