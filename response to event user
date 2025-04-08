@@ -1,0 +1,192 @@
+Aim: Write an android application demonstrating response to 
+event/user
+interaction for
+a. Checkbox
+b. Radio button
+c. Button
+d. Spinner
+
+main_activity.xml code:
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent">
+ <EditText
+ android:id="@+id/Name"
+ android:layout_width="391dp"
+ android:layout_height="70dp"
+ android:layout_alignParentTop="true"
+ android:layout_marginStart="16dp"
+ android:layout_marginTop="16dp"
+ android:hint="Name"
+ android:inputType="textPersonName" />
+ <TextView
+ android:id="@+id/Gender"
+ android:layout_width="116dp"
+ android:layout_height="50dp"
+ android:layout_below="@id/Name"
+ android:layout_marginStart="16dp"
+ android:layout_marginTop="5dp"
+ android:text="Gender"
+ android:textSize="30dp" />
+ <RadioGroup
+ android:id="@+id/Selectgender"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_below="@id/Gender"
+ android:layout_marginTop="8dp"
+ android:layout_marginStart="16dp">
+ <RadioButton
+ android:id="@+id/RadioButton1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Male"
+ android:textSize="25dp"/>
+ <RadioButton
+ android:id="@+id/RadioButton2"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Female"
+ android:textSize="25dp"/>
+ </RadioGroup>
+ <TextView
+ android:id="@+id/Lang"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_below="@id/Selectgender"
+ android:layout_marginStart="16dp"
+ android:layout_marginTop="18dp"
+ android:text="I like"
+ android:textSize="20sp" />
+ <CheckBox
+ android:id="@+id/CheckBox1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Python"
+ android:layout_below="@id/Lang"
+ android:layout_marginTop="18dp"
+ android:layout_marginStart="16dp" />
+ <CheckBox
+ android:id="@+id/CheckBox2"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Kotlin"
+ android:layout_below="@id/CheckBox1"
+ android:layout_marginTop="18dp"
+ android:layout_marginStart="16dp" />
+ <TextView
+ android:id="@+id/course"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Your Class"
+ android:textSize="18sp"
+ android:layout_below="@id/CheckBox2"
+ android:layout_marginTop="16dp"
+ android:layout_marginStart="16dp" />
+ <Spinner
+ android:id="@+id/Spinner"
+ android:layout_width="352dp"
+ android:layout_height="50dp"
+ android:layout_below="@id/course"
+ android:layout_marginStart="30dp"
+ android:layout_marginTop="20dp"
+ android:layout_marginEnd="40dp" />
+ <Button
+ android:id="@+id/Button"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Submit"
+ android:textSize="25dp"
+ android:layout_below="@id/Spinner"
+ android:layout_marginTop="16dp"
+ android:layout_marginStart="16dp" />
+ <TextView
+ android:id="@+id/textViewResponse"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:textSize="14sp"
+ android:textStyle="bold|italic"
+ android:layout_below="@id/Button"
+ android:layout_marginTop="16dp"
+ android:layout_marginStart="16dp" />
+ <TextView
+ android:id="@+id/Myclass"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:textStyle="bold"
+ android:layout_below="@id/textViewResponse"
+ android:layout_marginTop="16dp"
+ android:layout_marginStart="16dp" />
+</RelativeLayout>
+MainActivity.kt code:
+package com.example.pract1ab
+import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import org.w3c.dom.Text
+class MainActivity : AppCompatActivity() {
+ override fun onCreate(savedInstanceState: Bundle?) {
+ super.onCreate(savedInstanceState)
+ enableEdgeToEdge()
+ setContentView(R.layout.activity_main)
+ val Name = findViewById<EditText>(R.id.Name)
+ val submitButton = findViewById<Button>(R.id.Button)
+ val dispMessage = findViewById<TextView>(R.id.textViewResponse)
+ val radioGroup = findViewById<RadioGroup>(R.id.Selectgender)
+ val radioB1 = findViewById<RadioButton>(R.id.RadioButton1)
+ val radioB2 = findViewById<RadioButton>(R.id.RadioButton2)
+ val CheckB1 = findViewById<CheckBox>(R.id.CheckBox1)
+ val CheckB2 = findViewById<CheckBox>(R.id.CheckBox2)
+ val CodingLang = findViewById<TextView>(R.id.Lang)
+ val Universityyear = findViewById<Spinner>(R.id.Spinner)
+ val myclass = findViewById<TextView>(R.id.Myclass)
+ val year = arrayOf("FYCS", "SYCS", "TYCS")
+ val arrayAdp = ArrayAdapter(
+ this,
+ android.R.layout.simple_spinner_dropdown_item,
+ year
+ ) // Simple dropdown layout selected for the spinner list
+ Universityyear.adapter = arrayAdp
+ Universityyear.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+ override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+ // To Display the Array class for the selected position.
+ myclass.text = "Your Class: " + year[position]
+ }
+ override fun onNothingSelected(p0: AdapterView<*>?) {
+ myclass.text = "Please select Your Class"
+ }
+ }
+ radioGroup.setOnCheckedChangeListener { group, checkedId ->
+ if (checkedId == R.id.RadioButton1) {
+ dispMessage.setText("Gender: " + radioB1.text)
+ } else if (checkedId == R.id.RadioButton2) {
+ dispMessage.setText("Gender: " + radioB2.text)
+ }
+ }
+ submitButton.setOnClickListener {
+ dispMessage.setText("Welcome " + Name.text)
+ if (CheckB1.isChecked && CheckB2.isChecked) {
+ CodingLang.text = "You love both languages"
+ } else if (CheckB1.isChecked) {
+ CodingLang.text = "I love Python"
+ } else if (CheckB2.isChecked) {
+ CodingLang.text = "I love Kotlin"
+ } else {
+ CodingLang.text = "You don't like these languages"
+ }
+ }
+ }
+}
+OUTPUT:
