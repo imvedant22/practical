@@ -1,0 +1,216 @@
+Aim: Create an Android application to demonstrate the
+different types of menus.
+Activity_main.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ android:layout_margin="20dp">
+ <Button
+ android:id="@+id/btncheck"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Check"
+ android:textSize="30sp"
+ android:layout_centerInParent="true"/>
+</RelativeLayout>
+Mymenu.xml file:
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+ <item
+ android:id="@+id/First"
+ android:title="About"/>
+ <item
+ android:id="@+id/Second"
+ android:title="Settings"/>
+ <item
+ android:id="@+id/Third"
+ android:title="Show"/>
+</menu>
+MainActivity.kt file:
+package com.example.practical8
+import android.os.Bundle
+import android.view.ContextMenu
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+class MainActivity : AppCompatActivity() {
+ private lateinit var btnCheck: Button
+ override fun onCreate(savedInstanceState: Bundle?) {
+ super.onCreate(savedInstanceState)
+ setContentView(R.layout.activity_main) // Binds the layout
+ btnCheck = findViewById(R.id.btncheck)
+ registerForContextMenu(btnCheck)
+ }
+ override fun onCreateContextMenu(
+ menu: ContextMenu?,
+ v: View?,
+ menuInfo: ContextMenu.ContextMenuInfo?
+ ) {
+ super.onCreateContextMenu(menu, v, menuInfo)
+ menuInflater.inflate(R.menu.mymenu, menu) // Inflate menu_main.xml
+ }
+ override fun onContextItemSelected(item: MenuItem): Boolean {
+ return when (item.itemId) {
+ R.id.First -> {
+ Toast.makeText(this, "About Clicked", Toast.LENGTH_SHORT).show()
+ true
+ }
+ R.id.Second -> {
+ Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show()
+ true
+ }
+ R.id.Third -> {
+ Toast.makeText(this, "Show Clicked", Toast.LENGTH_SHORT).show()
+ true
+ }
+ else -> super.onContextItemSelected(item)
+ }
+ }
+}
+OUTPUT:
+ 
+Part B by OptionMenu
+Activity_main.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ android:layout_margin="20dp">
+ <Button
+ android:id="@+id/btncheck"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Check"
+ android:textSize="30sp"
+ android:layout_centerInParent="true"/>
+</RelativeLayout>
+Mymenu.xml file:
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+ <item
+ android:id="@+id/First"
+ android:title="About"/>
+ <item
+ android:id="@+id/Second"
+ android:title="Settings"/>
+ <item
+ android:id="@+id/Third"
+ android:title="Show"/>
+</menu>
+MainActivity.kt file:
+package com.example.practical8
+import android.os.Bundle
+import android.view.ContextMenu
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+class MainActivity : AppCompatActivity() {
+ override fun onCreate(savedInstanceState: Bundle?) {
+ super.onCreate(savedInstanceState)
+ setContentView(R.layout.activity_main) // Binds the layout
+ }
+ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+ menuInflater.inflate(R.menu.mymenu, menu)
+ return super.onCreateOptionsMenu(menu)
+ }
+ override fun onOptionsItemSelected(item: MenuItem): Boolean {
+ return when (item.itemId) {
+ R.id.First -> {
+ Toast.makeText(this, "About Clicked", Toast.LENGTH_SHORT).show()
+ true
+ }
+ R.id.Second -> {
+ Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show()
+ true
+ }
+ R.id.Third -> {
+ Toast.makeText(this, "Show Clicked", Toast.LENGTH_SHORT).show()
+ true
+ }
+ else -> super.onOptionsItemSelected(item)
+ }
+ }
+}
+OUTPUT:
+
+Part C by Popup:
+Activity_main.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ android:layout_margin="20dp">
+ <Button
+ android:id="@+id/btncheck"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Check"
+ android:textSize="30sp"
+ android:layout_centerInParent="true"/>
+</RelativeLayout>
+Mymenu.xml file:
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+ <item
+ android:id="@+id/First"
+ android:title="About"/>
+ <item
+ android:id="@+id/Second"
+ android:title="Settings"/>
+ <item
+ android:id="@+id/Third"
+ android:title="Show"/>
+</menu>
+MainActivity.kt file:
+package com.example.practical8
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.PopupMenu
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+class MainActivity : AppCompatActivity() {
+ private lateinit var btnCheck: Button
+ override fun onCreate(savedInstanceState: Bundle?) {
+ super.onCreate(savedInstanceState)
+ setContentView(R.layout.activity_main)
+ btnCheck = findViewById(R.id.btncheck)
+ btnCheck.setOnClickListener { view ->
+ showPopupMenu(view)
+ }
+ }
+ private fun showPopupMenu(view: View) {
+ val popupMenu = PopupMenu(this, view)
+ popupMenu.menuInflater.inflate(R.menu.mymenu, popupMenu.menu)
+ popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+ when (item.itemId) {
+ R.id.First -> {
+ Toast.makeText(this, "About Clicked", Toast.LENGTH_SHORT).show()
+ true
+ }
+ R.id.Second -> {
+ Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show()
+ true
+ }
+ R.id.Third -> {
+ Toast.makeText(this, "Show Clicked", Toast.LENGTH_SHORT).show()
+ true
+ }
+ else -> false
+ }
+ }
+ popupMenu.show()
+ }
+}
+OUTPUT:
