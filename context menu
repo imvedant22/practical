@@ -1,0 +1,98 @@
+1.Contextmenu: 
+->Menu file code:
+<?xml version="1.0" encoding="utf-8"?>
+<menu 
+xmlns:android="http://schemas.android.com/apk/res/android">
+ <item
+ android:id="@+id/First"
+ android:title="Login"/
+ <item
+ android:id="@+id/Second"
+ android:title="Register"/>
+ <item
+ android:id="@+id/Third"
+ android:title="Setting"/>
+ <item
+ android:id="@+id/Fourth"
+ android:title="Share">
+ <menu>
+ <item
+ android:id="@+id/Fifth"
+305 - Android Practical 8B
+Aim : Create an Android application to demonstrate the 
+different types of menus.
+Page 47
+ android:title="Bluetooth"
+ android:icon="@drawable/ic_bluetooth"/>
+ <item
+ android:id="@+id/Sixth"
+ android:title="Mail"
+ android:icon="@drawable/ic_mail"/>
+ </menu>
+ </item>
+</menu>
+->Mainactivity code:
+package com.example.contextmenu
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.ContextMenu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.Toast
+class MainActivity : AppCompatActivity()
+{
+ lateinit var btn : Button
+ override fun onCreate(savedInstanceState: Bundle?)
+ {
+Page 48
+ super.onCreate(savedInstanceState)
+ setContentView(R.layout.activity_main)
+ btn = findViewById(R.id.button1)
+ registerForContextMenu(btn)
+ }
+ override fun onCreateContextMenu(
+ menu: ContextMenu?,
+ v: View?,
+ menuInfo: ContextMenu.ContextMenuInfo?
+ ) {
+ super.onCreateContextMenu(menu, v, menuInfo)
+ menuInflater.inflate(R.menu.context_menu,menu)
+ }
+ override fun onContextItemSelected(item: MenuItem): Boolean 
+{
+ val id = item.itemId
+ if(id == R.id.First)
+ {
+ Toast.makeText(this,"Login is 
+selected",Toast.LENGTH_LONG).show()
+ }
+ else if(id == R.id.Second)
+ {
+ Toast.makeText(applicationContext,"Register is 
+selected",Toast.LENGTH_LONG).show()
+Page 49
+ }
+ else if(id == R.id.Third)
+ {
+ Toast.makeText(applicationContext,"Setting is 
+selected",Toast.LENGTH_LONG).show()
+ }
+ else if(id == R.id.Fourth)
+ {
+ Toast.makeText(applicationContext, "Share is selected", 
+Toast.LENGTH_LONG).show()
+ }
+ else if (id == R.id.Fifth)
+ {
+ Toast.makeText(applicationContext, "Bluetooth is selected", 
+Toast.LENGTH_LONG).show()
+ }
+ else if (id == R.id.Sixth)
+ {
+ Toast.makeText(applicationContext, "Mail is selected", 
+Toast.LENGTH_LONG).show()
+ }
+ return super.onContextItemSelected(item)
+ }
+}
